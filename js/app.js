@@ -72,6 +72,11 @@
             movies.push(data["Search"][i]);
           }
           renderMovies();
+          var id = []
+          for (var i = 0; i < data["Search"].length; i++){
+            id.push(movies[i]["imdbID"])
+
+          }
         }
       )
     }
