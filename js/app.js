@@ -14,16 +14,16 @@
 
       $title.attr({
         'data-position': 'top',
-        'data-tooltip': movie.title
+        'data-tooltip': movie.Title
       });
 
-      $title.tooltip({ delay: 50 }).text(movie.title);
+      $title.tooltip({ delay: 50 }).text(movie.Title);
 
       const $poster = $('<img>').addClass('poster');
 
       $poster.attr({
-        src: movie.poster,
-        alt: `${movie.poster} Poster`
+        src: movie.Poster,
+        alt: `${movie.Poster} Poster`
       });
 
       $content.append($title, $poster);
@@ -39,10 +39,10 @@
       $action.append($plot);
       $card.append($action);
 
-      const $modal = $('<div>').addClass('modal').attr('id', movie.id);
+      const $modal = $('<div>').addClass('modal').attr('id', movie.imdbID);
       const $modalContent = $('<div>').addClass('modal-content');
-      const $modalHeader = $('<h4>').text(movie.title);
-      const $movieYear = $('<h6>').text(`Released in ${movie.year}`);
+      const $modalHeader = $('<h4>').text(movie.Title);
+      const $movieYear = $('<h6>').text(`Released in ${movie.Year}`);
       const $modalText = $('<p>').text(movie.plot);
 
       $modalContent.append($modalHeader, $movieYear, $modalText);
@@ -59,17 +59,24 @@
   // ADD YOUR CODE HERE
   $("button").click(function() {
     event.preventDefault();
+    for (var i = 0; i < 10; i++) {
+      movies.pop();
+    }
+    console.log(movies);
+    $('#listings').empty();
     var search = $("input").val()
-    console.log(search)
     if (search !== "") {
-      console.log("you did good!")
-      $.get('https://omdb-api.now.sh/?s=' + search, function( data ) {
-        console.log(data)
-      })
+      $.get('https://omdb-api.now.sh/?s=' + search).then(
+        function (data) {
+          for (var i = 0; i < data["Search"].length; i++) {
+            movies.push(data["Search"][i]);
+          }
+          renderMovies();
+        }
+      )
     }
     else {
       alert("You suck at typing!")
-
     }
   });
 })();
