@@ -57,4 +57,19 @@
   };
 
   // ADD YOUR CODE HERE
+  $("button").click(function() {
+    event.preventDefault();
+    var search = $("input").val()
+    console.log(search)
+    if (search !== "") {
+      console.log("you did good!")
+      $.get('https://omdb-api.now.sh/?s=' + search, function( data ) {
+        console.log(data)
+      })
+    }
+    else {
+      alert("You suck at typing!")
+
+    }
+  });
 })();
